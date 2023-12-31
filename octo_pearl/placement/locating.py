@@ -6,7 +6,11 @@ from PIL import Image
 from scipy.spatial.distance import cdist
 from segment_anything import SamPredictor
 
-from octo_pearl.utils import get_clipseg_heatmap, get_gdino_result, get_sam_model
+from octo_pearl.placement.utils import (
+    get_clipseg_heatmap,
+    get_gdino_result,
+    get_sam_model,
+)
 
 
 def get_location_clipseg(image: Image.Image, prompt: str) -> Tuple[int, int]:

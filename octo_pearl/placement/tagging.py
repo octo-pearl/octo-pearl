@@ -12,7 +12,7 @@ from ram import inference_ram as inference
 from ram.models import ram_plus
 from segment_anything import SamAutomaticMaskGenerator
 
-from octo_pearl.utils import get_sam_model
+from octo_pearl.placement.utils import get_sam_model
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 ram_model = None

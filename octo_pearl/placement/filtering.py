@@ -8,7 +8,7 @@ from transformers import (
     ViltProcessor,
 )
 
-from octo_pearl.utils import get_clipseg_heatmap, get_gdino_result
+from octo_pearl.placement.utils import get_clipseg_heatmap, get_gdino_result
 
 vqa_model = None
 vqa_processor = None

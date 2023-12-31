@@ -10,7 +10,7 @@ Augmented reality involves overlaying virtual objects on the real world. To enha
 - OCTO+ (and other methods we experimented with):
   - Input: image (e.g. an AR camera frame) and text naming an object (e.g. "cupcake")
   - Output: 2D location where the object should be placed (ray casting can be used to determine the corresponding 3D location)
-- PEARL, a benchmark for **P**lacement **E**valuation of **A**ugmented **R**eality E**L**ements
+- (TODO) PEARL, a benchmark for **P**lacement **E**valuation of **A**ugmented **R**eality E**L**ements
   - Dataset containing pairs of images and text naming an object to be placed in the image, as well as a segmentation mask indicating which (x, y) pixel locations in the image are valid and which are not
   - Automated metrics to evaluate how well the objects are placed in the image
 
