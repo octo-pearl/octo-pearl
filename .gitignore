@@ -1,0 +1,7 @@
+**/__pycache__/
+*.egg-info
+.eggs
+.venv
+.ruff_cache
+.vscode
+weights
