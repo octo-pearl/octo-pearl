@@ -10,7 +10,7 @@ Augmented reality involves overlaying virtual objects on the real world. To enha
 - OCTO+ (and other methods we experimented with):
   - Input: image (e.g. an AR camera frame) and text naming an object (e.g. "cupcake")
   - Output: 2D location where the object should be placed (ray casting can be used to determine the corresponding 3D location)
-- (TODO) PEARL, a benchmark for **P**lacement **E**valuation of **A**ugmented **R**eality E**L**ements
+- PEARL, a benchmark for **P**lacement **E**valuation of **A**ugmented **R**eality E**L**ements
   - Dataset containing pairs of images[^1] and text naming an object to be placed in the image, as well as a segmentation mask indicating which (x, y) pixel locations in the image are valid and which are not
   - Automated metrics to evaluate how well the objects are placed in the image
 
@@ -21,6 +21,14 @@ Augmented reality involves overlaying virtual objects on the real world. To enha
 git clone https://github.com/octo-pearl/octo-pearl.git
 cd octo-pearl
 pip install -e .
+```
+
+The included placement techniques require model weights to be downloaded to `octo-pearl/weights`. Weights are not required to run the PEARL benchmark. To download all weights, run the following commands from the project root, `octo-pearl` (each individual pipeline/stage only requires a subset of the following):
+```
+mkdir -p weights
+wget -q -O weights/sam_vit_h_4b8939.pth https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth
+wget -q -O weights/ram_plus_swin_large_14m.pth https://huggingface.co/xinyu1205/recognize-anything-plus-model/resolve/main/ram_plus_swin_large_14m.pth
+wget -q -O weights/groundingdino_swint_ogc.pth https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha/groundingdino_swint_ogc.pth
 ```
 
 ## Usage
