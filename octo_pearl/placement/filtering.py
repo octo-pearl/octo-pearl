@@ -37,10 +37,9 @@ def filter_tags_vilt(image: Image.Image, tags: List[str]) -> List[str]:
         question = f"Is there a {tag} in the image?"
         encoding = vqa_processor(image, question, return_tensors="pt").to(device)
         outputs = vqa_model(**encoding)
-        logits = outputs.logits
-        idx = logits.argmax(-1).item()
-        in_image = vqa_model.config.id2label[idx]
-        if "yes" in in_image.lower():
+        idx = outputs.logits.argmax(-1).item()
+        response = vqa_model.config.id2label[idx]
+        if "yes" in response.lower():
             filtered_tags.append(tag)
 
     return filtered_tags

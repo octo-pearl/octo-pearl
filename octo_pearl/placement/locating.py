@@ -25,7 +25,7 @@ def get_location_gsam(
     image: Image.Image, prompt: str, weights_folder="weights"
 ) -> Tuple[int, int]:
     BOX_TRESHOLD = 0.25
-    RESIZE_DOWN_RATIO = 3
+    RESIZE_RATIO = 3
 
     detections, phrases = get_gdino_result(
         image=image,
@@ -59,28 +59,23 @@ def get_location_gsam(
     mask = cv2.resize(
         combined_mask.astype("uint8"),
         (
-            combined_mask.shape[1] // RESIZE_DOWN_RATIO,
-            combined_mask.shape[0] // RESIZE_DOWN_RATIO,
+            combined_mask.shape[1] // RESIZE_RATIO,
+            combined_mask.shape[0] // RESIZE_RATIO,
         ),
     )
 
-    pad_mask = np.pad(mask, pad_width=2, mode="constant", constant_values=0)
-    pad_1 = np.pad(mask, pad_width=1, mode="constant", constant_values=0)
+    mask_2_pad = np.pad(mask, pad_width=2, mode="constant", constant_values=0)
+    mask_1_pad = np.pad(mask, pad_width=1, mode="constant", constant_values=0)
 
-    windows = np.lib.stride_tricks.sliding_window_view(pad_mask, (3, 3)) == 1
-    lnot = np.logical_not(windows)
-    lall = lnot.all(axis=(2, 3))
-    result = np.where(lall, 2, pad_1)
+    windows = np.lib.stride_tricks.sliding_window_view(mask_2_pad, (3, 3))
+    windows_all_zero = (windows == 0).all(axis=(2, 3))
+
+    # if the 3x3 window around a pixel is all 0, it is irrelevant, so we set it to 2
+    result = np.where(windows_all_zero, 2, mask_1_pad)
     mask_0_coordinates = np.argwhere(result == 0)
     mask_1_coordinates = np.argwhere(result == 1)
-
-    # Calculate distances to all points where the mask equals 0 for all mask_1_coordinates
     distances = cdist(mask_1_coordinates, mask_0_coordinates, "euclidean")
-
-    # Find the maximum minimum distance and its corresponding coordinate
     max_min_distance_index = np.argmax(np.min(distances, axis=1))
+    y, x = mask_1_coordinates[max_min_distance_index]
 
-    max_min_distance_coordinate = tuple(mask_1_coordinates[max_min_distance_index])
-    y, x = max_min_distance_coordinate
-
-    return int(x) * RESIZE_DOWN_RATIO, int(y) * RESIZE_DOWN_RATIO
+    return int(x) * RESIZE_RATIO, int(y) * RESIZE_RATIO
