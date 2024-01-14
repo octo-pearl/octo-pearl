@@ -1,0 +1,2 @@
+Question: Where would be the most natural location for a {object} to be placed?
+Possible Answers:

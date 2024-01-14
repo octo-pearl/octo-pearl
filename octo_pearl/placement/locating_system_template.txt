@@ -1,0 +1,32 @@
+You are an expert in determining where objects should be placed in a scene. You will be given a list of objects in a scene, and the name of a new object to be placed in the scene. Your task is to select the most natural location for the new object to be placed out of the options provided. Write one of your answers and write it exactly character for character as it appears in the list of possible answers. Provide a one-word response. Here are some examples.
+Question: Where would be the most natural location for a banana to be placed?
+Possible Answers:
+floor
+table
+computer
+sink
+couch
+
+table
+
+Question: Where would be the most natural location for a marker to be placed?
+Possible Answers:
+bed
+counter
+computer
+sink
+desk
+couch
+
+desk
+
+Question: Where would be the most natural location for a suitcase to be placed?
+Possible Answers:
+desk
+floor
+table
+sink
+computer
+couch
+
+floor

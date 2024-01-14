@@ -1,18 +1,17 @@
+import os
 from typing import List, Tuple
 
 import groundingdino.config.GroundingDINO_SwinT_OGC
 import numpy as np
+import openai
 import torch
-from groundingdino.util.inference import (
-    Model,
-)
+from dotenv import load_dotenv
+from groundingdino.util.inference import Model
 from PIL import Image
 from segment_anything import sam_model_registry
 from supervision import Detections
-from transformers import (
-    CLIPSegForImageSegmentation,
-    CLIPSegProcessor,
-)
+from tenacity import retry, wait_fixed
+from transformers import CLIPSegForImageSegmentation, CLIPSegProcessor
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 clipseg_processor = None
@@ -82,3 +81,46 @@ def get_sam_model(weights_folder="weights"):
         sam_model = sam_model_registry["vit_h"](checkpoint=sam_checkpoint)
         sam_model.to(device=device)
     return sam_model
+
+
+def read_file_to_string(file_path: str) -> str:
+    content = ""
+
+    try:
+        with open(file_path, "r", encoding="utf8") as file:
+            content = file.read()
+    except FileNotFoundError:
+        print(f"The file {file_path} was not found.")
+    except Exception as e:
+        print(f"An error occurred while reading {file_path}: {e}")
+
+    return content
+
+
+"""Open AI Utils."""
+
+load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+
+@retry(wait=wait_fixed(2))
+def completion_with_backoff(**kwargs):
+    print("Trying")
+    return openai.ChatCompletion.create(**kwargs)
+
+
+def gpt4(usr_prompt: str, sys_prompt: str = "", model: str = "gpt-4") -> str:
+    message = [
+        {"role": "system", "content": sys_prompt},
+        {"role": "user", "content": usr_prompt},
+    ]
+
+    response = completion_with_backoff(
+        model=model,
+        messages=message,
+        temperature=0.2,
+        max_tokens=1000,
+        frequency_penalty=0.0,
+    )
+
+    return response["choices"][0]["message"]["content"]
