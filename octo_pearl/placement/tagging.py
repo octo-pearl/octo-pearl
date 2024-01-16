@@ -89,8 +89,8 @@ def get_tags_scp(image: Image.Image, weights_folder="weights") -> List[str]:
     return list(nouns)
 
 
-def get_tags_gpt4v(image_path: str) -> List[str]:
+def get_tags_gpt4v(image_path: str, api_key: str = "") -> List[str]:
     user_prompt = read_file_to_string(USR_PATH)
-    response = gpt4v(image_path, user_prompt)
+    response = gpt4v(image_path, user_prompt, api_key=api_key)
     tags = [t.strip().lower() for t in response.replace(".", "").split(",")]
     return sorted(list(set(tags)))
