@@ -2,8 +2,8 @@ from typing import List
 
 from octo_pearl.placement.utils import gpt4, read_file_to_string
 
-USR_PATH = "locating_user_template.txt"
-SYS_PATH = "locating_system_template.txt"
+USR_PATH = "octo_pearl/placement/selecting_user_template.txt"
+SYS_PATH = "octo_pearl/placement/selecting_system_template.txt"
 
 
 def select_best_tag(
