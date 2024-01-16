@@ -1,0 +1,1 @@
+Please provide a list of nouns (where each noun is separated by comma, example: object1, object2, object3) that could be used to describe this image. This listing should include where common indoor objects could be placed. Only list objects which are in the image.

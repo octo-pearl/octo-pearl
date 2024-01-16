@@ -1,9 +1,12 @@
 import os
 from typing import List, Tuple
 
+import base64
 import groundingdino.config.GroundingDINO_SwinT_OGC
+import json
 import numpy as np
 import openai
+import requests
 import torch
 from dotenv import load_dotenv
 from groundingdino.util.inference import Model
@@ -129,3 +132,55 @@ def gpt4(
     )
 
     return response["choices"][0]["message"]["content"]
+
+
+# Function to encode the image for gpt4v
+def encode_image(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode("utf-8")
+
+
+def gpt4v(
+    image_path: str,
+    usr_prompt: str,
+    sys_prompt: str = "",
+    api_key: str = "",
+    model: str = "gpt-4-vision-preview",
+) -> str:
+    if api_key != "":
+        openai.api_key = api_key
+    else:
+        load_dotenv()
+        openai.api_key = os.getenv("OPENAI_API_KEY")
+
+    base64_image = encode_image(image_path)
+
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {openai.api_key}",
+    }
+
+    usr_content = [
+        {"type": "text", "text": usr_prompt},
+        {
+            "type": "image_url",
+            "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"},
+        },
+    ]
+
+    message = [
+        {"role": "system", "content": sys_prompt},
+        {"role": "user", "content": usr_content},
+    ]
+
+    payload = {
+        "model": model,
+        "messages": message,
+        "max_tokens": 200,
+    }
+
+    response = requests.post(
+        "https://api.openai.com/v1/chat/completions", headers=headers, json=payload
+    )
+
+    return (response.json())["choices"][0]["message"]["content"]

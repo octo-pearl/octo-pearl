@@ -12,7 +12,9 @@ from ram import inference_ram as inference
 from ram.models import ram_plus
 from segment_anything import SamAutomaticMaskGenerator
 
-from octo_pearl.placement.utils import get_sam_model
+from octo_pearl.placement.utils import get_sam_model, read_file_to_string, gpt4v
+
+USR_PATH = "octo_pearl/placement/tagging_user_template.txt"
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 ram_model = None
@@ -87,5 +89,8 @@ def get_tags_scp(image: Image.Image, weights_folder="weights") -> List[str]:
     return list(nouns)
 
 
-def get_tags_gpt4v(image: Image.Image) -> List[str]:
-    pass
+def get_tags_gpt4v(image_path: str) -> List[str]:
+    user_prompt = read_file_to_string(USR_PATH)
+    response = gpt4v(image_path, user_prompt)
+    tags = [t.strip().lower() for t in response.replace(".", "").split(",")]
+    return sorted(list(set(tags)))
