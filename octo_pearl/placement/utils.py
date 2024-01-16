@@ -99,9 +99,6 @@ def read_file_to_string(file_path: str) -> str:
 
 """Open AI Utils."""
 
-load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
 
 @retry(wait=wait_fixed(2))
 def completion_with_backoff(**kwargs):
@@ -109,7 +106,15 @@ def completion_with_backoff(**kwargs):
     return openai.ChatCompletion.create(**kwargs)
 
 
-def gpt4(usr_prompt: str, sys_prompt: str = "", model: str = "gpt-4") -> str:
+def gpt4(
+    usr_prompt: str, sys_prompt: str = "", api_key: str = "", model: str = "gpt-4"
+) -> str:
+    if api_key != "":
+        openai.api_key = api_key
+    else:
+        load_dotenv()
+        openai.api_key = os.getenv("OPENAI_API_KEY")
+
     message = [
         {"role": "system", "content": sys_prompt},
         {"role": "user", "content": usr_prompt},

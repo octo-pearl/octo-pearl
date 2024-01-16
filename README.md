@@ -36,6 +36,18 @@ wget -q -O weights/ram_plus_swin_large_14m.pth https://huggingface.co/xinyu1205/
 wget -q -O weights/groundingdino_swint_ogc.pth https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha/groundingdino_swint_ogc.pth
 ```
 
+Add your OpenAI API key to environment variable (.env) file in `octo-pearl/placement/.env` path. The .env file should contain the following:
+
+```
+OPENAI_API_KEY=<your_api_key>
+```
+
+Alternatively, if you are just running the code in the Colab demo, you can directly pass in your `api_key` as a parameter to the `select_best_tag` function. The function signature is:
+
+```
+select_best_tag(filtered_tags: List[str], object_to_place: str, api_key: str = "") -> str
+```
+
 ## Usage
 
 For examples on how to use OCTO+ and some other placement techniques, and how to use PEARL on a single image-object pair, see the [Colab demo](https://colab.research.google.com/github/octo-pearl/octo-pearl/blob/main/demo.ipynb).

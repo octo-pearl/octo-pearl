@@ -6,8 +6,10 @@ USR_PATH = "locating_user_template.txt"
 SYS_PATH = "locating_system_template.txt"
 
 
-def select_best_tag(filtered_tags: List[str], object_to_place: str) -> str:
+def select_best_tag(
+    filtered_tags: List[str], object_to_place: str, api_key: str = ""
+) -> str:
     user_template = read_file_to_string(USR_PATH).format(object=object_to_place)
     user_prompt = user_template + "\n".join(filtered_tags)
     system_prompt = read_file_to_string(SYS_PATH)
-    return gpt4(user_prompt, system_prompt)
+    return gpt4(user_prompt, system_prompt, api_key=api_key)
