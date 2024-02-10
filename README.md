@@ -1,8 +1,8 @@
 # Octo+: A Suite for Automatic Open-Vocabulary Object Placement in Mixed Reality
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/octo-pearl/octo-pearl/blob/main/demo.ipynb) [![Homepage](https://img.shields.io/badge/🌐-Homepage-blue)](https://octo-pearl.github.io/) [![arXiv](https://img.shields.io/badge/📖-arXiv-b31b1b)](https://octo-pearl.github.io/)
+[![Homepage](https://img.shields.io/badge/🌐-Homepage-blue)](https://octo-pearl.github.io/) [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/octo-pearl/octo-pearl/blob/main/demo.ipynb)  [![arXiv (OCTO+)](https://img.shields.io/badge/📖-arXiv%20(OCTO+)-b31b1b)](https://arxiv.org/abs/2401.08973) [![arXiv (OCTOPUS)](https://img.shields.io/badge/📖-arXiv%20(OCTOPUS)-b31b1b)](https://arxiv.org/abs/2312.12815)
 
-This repo contains the code and data for the paper "[Octo+: A Suite for Automatic Open-Vocabulary Object Placement in Mixed Reality](https://octo-pearl.github.io/)".
+This repo contains the code and data for the paper "[Octo+: A Suite for Automatic Open-Vocabulary Object Placement in Mixed Reality](https://arxiv.org/abs/2401.08973)".
 
 ## Overview
 
